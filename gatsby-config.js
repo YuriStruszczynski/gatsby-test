@@ -12,6 +12,12 @@ module.exports = {
     },
   },
   plugins: [
+    {
+      resolve: `gatsby-source-wordpress-experimental`,
+      options: {
+        url: process.env.WPGRAPHQL_URL || `https://wpgatsby.shoptrexxs.de/graphql`,
+      },
+    },
     `gatsby-plugin-image`,
     {
       resolve: `gatsby-source-filesystem`,
