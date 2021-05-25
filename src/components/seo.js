@@ -1,34 +1,36 @@
 /**
- * SEO component that queries for data with
+ * Seo component that queries for data with
  *  Gatsby's useStaticQuery React hook
  *
  * See: https://www.gatsbyjs.com/docs/use-static-query/
  */
 
-import * as React from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { Helmet } from "react-helmet"
 import { useStaticQuery, graphql } from "gatsby"
 
 const Seo = ({ description, lang, meta, title }) => {
-  const { site } = useStaticQuery(
+  const { wp, wpUser } = useStaticQuery(
     graphql`
       query {
-        site {
-          siteMetadata {
+        wp {
+          generalSettings {
             title
             description
-            social {
-              twitter
-            }
           }
+        }
+
+        # if there's more than one user this would need to be filtered to the main user
+        wpUser {
+          twitter: name
         }
       }
     `
   )
 
-  const metaDescription = description || site.siteMetadata.description
-  const defaultTitle = site.siteMetadata?.title
+  const metaDescription = description || wp.generalSettings?.description
+  const defaultTitle = wp.generalSettings?.title
 
   return (
     <Helmet
@@ -60,7 +62,7 @@ const Seo = ({ description, lang, meta, title }) => {
         },
         {
           name: `twitter:creator`,
-          content: site.siteMetadata?.social?.twitter || ``,
+          content: wpUser?.twitter || ``,
         },
         {
           name: `twitter:title`,
